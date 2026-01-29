@@ -11,9 +11,9 @@ export async function POST(_req: Request) {
     }
     const token = authHeader.split("Bearer ")[1];
     if (!token) {
-        return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
-    
+
     const decodedToken = await adminAuth.verifyIdToken(token);
     const userId = decodedToken.uid;
     const email = decodedToken.email;

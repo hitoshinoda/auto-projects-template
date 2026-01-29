@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-      
+
       // Unsubscribe from previous user's snapshot listener if exists
       if (unsubscribeSnapshot) {
         unsubscribeSnapshot();
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (firebaseUser) {
         const userRef = doc(db, "users", firebaseUser.uid);
-        
+
         // Subscribe to user document for real-time updates
         unsubscribeSnapshot = onSnapshot(userRef, async (snapshot) => {
           if (snapshot.exists()) {
@@ -64,8 +64,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
           setLoading(false);
         }, (error) => {
-            console.error("Error fetching user data:", error);
-            setLoading(false);
+          console.error("Error fetching user data:", error);
+          setLoading(false);
         });
 
       } else {
@@ -83,12 +83,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      appUser, 
-      loading, 
+    <AuthContext.Provider value={{
+      user,
+      appUser,
+      loading,
       // Safely check isPro
-      isPro: appUser?.isPro ?? false 
+      isPro: appUser?.isPro ?? false
     }}>
       {children}
     </AuthContext.Provider>

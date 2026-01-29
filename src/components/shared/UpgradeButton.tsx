@@ -15,7 +15,7 @@ export default function UpgradeButton() {
       alert("Please login to upgrade.");
       return;
     }
-    
+
     setLoading(true);
 
     try {
@@ -24,7 +24,7 @@ export default function UpgradeButton() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
+          "Authorization": `Bearer ${token}`
         },
       });
 
@@ -34,12 +34,12 @@ export default function UpgradeButton() {
 
       const { sessionId } = await response.json();
       const stripe = await stripePromise;
-      
+
       if (stripe) {
-        const { error } = await (stripe as any).redirectToCheckout({sessionId});
-         if (error) {
-             console.error("Stripe redirect error:", error);
-         }
+        const { error } = await (stripe as any).redirectToCheckout({ sessionId });
+        if (error) {
+          console.error("Stripe redirect error:", error);
+        }
       }
 
     } catch (error) {

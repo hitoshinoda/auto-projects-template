@@ -6,11 +6,15 @@ import { getApps } from "firebase-admin/app";
  * If not provided, it will attempt to use applicationDefault credentials.
  */
 const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
-const serviceAccount = serviceAccountString ? JSON.parse(serviceAccountString) : undefined;
+const serviceAccount = serviceAccountString
+  ? JSON.parse(serviceAccountString)
+  : undefined;
 
 if (getApps().length === 0) {
   admin.initializeApp({
-    credential: serviceAccount ? admin.credential.cert(serviceAccount) : admin.credential.applicationDefault(),
+    credential: serviceAccount
+      ? admin.credential.cert(serviceAccount)
+      : admin.credential.applicationDefault(),
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   });
 }

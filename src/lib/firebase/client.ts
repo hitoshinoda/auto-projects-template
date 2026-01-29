@@ -4,7 +4,10 @@ import { getFirestore, Firestore } from "firebase/firestore";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 import { firebaseConfig } from "./config";
 
-const app: FirebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0] as FirebaseApp;
+const app: FirebaseApp =
+  getApps().length === 0
+    ? initializeApp(firebaseConfig)
+    : (getApps()[0] as FirebaseApp);
 
 export const auth: Auth = getAuth(app);
 export const db: Firestore = getFirestore(app);

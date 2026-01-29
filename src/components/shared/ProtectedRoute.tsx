@@ -23,7 +23,7 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
         <p className="text-zinc-600 dark:text-zinc-400">
           You need a Pro subscription to access this content.
         </p>
-        
+
         {fallback ? fallback : <UpgradeButton />}
       </div>
     );
