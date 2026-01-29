@@ -1,0 +1,84 @@
+﻿
+> auto-projects-template@0.1.0 build
+> next build
+
+笆ｲ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+笨・Compiled successfully in 3.1s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+node.exe : STRIPE_SECRET_KEY is missing
+. Stripe functionality will not work.
+発生場所 行:1 文字:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Users\jinch\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpeci 
+   fied: (STRIPE_SECRET_K... will not  
+   work.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCo 
+   mmandError
+ 
+STRIPE_SECRET_KEY is missing. Stripe fu
+nctionality will not work.
+  Generating static pages using 11 workers (0/6) ...
+STRIPE_SECRET_KEY is missing. Stripe fu
+nctionality will not work.
+  Generating static pages using 11 workers (1/6) 
+  Generating static pages using 11 workers (2/6) 
+Error occurred prerendering page "/_not
+-found". Read more: https://nextjs.org/
+docs/messages/prerender-error
+Error [FirebaseError]: Firebase: Error 
+(auth/invalid-api-key).
+    at bL (C:\Users\jinch\dev\auto-proj
+ects-template\.next\server\chunks\ssr\[
+root-of-the-server]__2c648f44._.js:3:32
+6655)
+    at bM (C:\Users\jinch\dev\auto-proj
+ects-template\.next\server\chunks\ssr\[
+root-of-the-server]__2c648f44._.js:3:32
+6704)
+    at ah.instanceFactory (C:\Users\jin
+ch\dev\auto-projects-template\.next\ser
+ver\chunks\ssr\[root-of-the-server]__2c
+648f44._.js:3:375281)
+    at aj.getOrInitializeService (C:\Us
+ers\jinch\dev\auto-projects-template\.n
+ext\server\chunks\ssr\[root-of-the-serv
+er]__2c648f44._.js:3:306962)
+    at aj.initialize (C:\Users\jinch\de
+v\auto-projects-template\.next\server\c
+hunks\ssr\[root-of-the-server]__2c648f4
+4._.js:3:306370)
+    at cV (C:\Users\jinch\dev\auto-proj
+ects-template\.next\server\chunks\ssr\[
+root-of-the-server]__2c648f44._.js:3:36
+4107)
+    at dv (C:\Users\jinch\dev\auto-proj
+ects-template\.next\server\chunks\ssr\[
+root-of-the-server]__2c648f44._.js:3:37
+5919)
+    at module evaluation (C:\Users\jinc
+h\dev\auto-projects-template\.next\serv
+er\chunks\ssr\[root-of-the-server]__2c6
+48f44._.js:15:10430)
+    at instantiateModule (C:\Users\jinc
+h\dev\auto-projects-template\.next\serv
+er\chunks\ssr\[turbopack]_runtime.js:74
+0:9)
+    at getOrInstantiateModuleFromParent
+ (C:\Users\jinch\dev\auto-projects-temp
+late\.next\server\chunks\ssr\[turbopack
+]_runtime.js:763:12) {
+  code: 'auth/invalid-api-key',
+  customData: [Object],
+  digest: '3264215746'
+}
+Export encountered an error on /_not-fo
+und/page: /_not-found, exiting the buil
+d.
+筧ｯ Next.js build worker exited with cod
+e: 1 and signal: null
