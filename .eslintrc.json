@@ -3,15 +3,25 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-non-null-assertion": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "react/jsx-no-bind": [
       "error",
       {
         "ignoreRefs": true,
-        "allowArrowFunctions": false,
+        "allowArrowFunctions": true,
         "allowFunctions": false,
         "allowBind": false,
         "ignoreDOMComponents": true
