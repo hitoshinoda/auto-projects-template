@@ -1,32 +1,40 @@
 "use client";
 
 import { useAuth } from "@/lib/firebase/auth-context";
-import UpgradeButton from "./UpgradeButton";
-import { ReactNode } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { REDIRECT_PATHS } from "@/proxy";
 
 interface ProtectedRouteProps {
-  children: ReactNode;
-  fallback?: ReactNode;
+  children: React.ReactNode;
 }
 
-export default function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
-  const { isPro, loading } = useAuth();
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (!user) {
+      router.push(REDIRECT_PATHS.LOGIN);
+      return;
+    }
+
+    if (!user.emailVerified) {
+      router.push(REDIRECT_PATHS.VERIFY_EMAIL);
+      return;
+    }
+  }, [user, loading, router, pathname]);
 
   if (loading) {
-    return <div className="flex justify-center p-8">Loading...</div>;
+    // You might want to render a spinner here
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
-  if (!isPro) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4 p-8 border rounded-lg bg-zinc-50 dark:bg-zinc-900">
-        <h2 className="text-xl font-bold">Premium Content</h2>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          You need a Pro subscription to access this content.
-        </p>
-
-        {fallback ? fallback : <UpgradeButton />}
-      </div>
-    );
+  if (!user || !user.emailVerified) {
+    return null; // Will redirect via useEffect
   }
 
   return <>{children}</>;

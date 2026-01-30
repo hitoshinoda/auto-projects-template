@@ -10,7 +10,9 @@ const app: FirebaseApp =
     : (getApps()[0] as FirebaseApp);
 
 export const auth: Auth = getAuth(app);
-export const db: Firestore = getFirestore(app);
+export const db: Firestore = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID
+  ? getFirestore(app, process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID)
+  : getFirestore(app);
 export const storage: FirebaseStorage = getStorage(app);
 
 export default app;
