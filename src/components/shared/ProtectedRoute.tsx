@@ -1,9 +1,11 @@
 "use client";
 
 import { useAuth } from "@/lib/firebase/auth-context";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
+import { Skeleton, SkeletonText } from "./Skeleton";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -29,8 +31,15 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }, [user, loading, router, pathname]);
 
   if (loading) {
-    // You might want to render a spinner here
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center p-8">
+        <div className="w-full max-w-md space-y-4">
+          <Skeleton height={32} width={200} />
+          <SkeletonText lines={4} />
+          <Skeleton height={40} width="60%" />
+        </div>
+      </div>
+    );
   }
 
   if (!user || !user.emailVerified) {

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { trackEvent } from "@/app/actions/analytics";
+import { trackEvent } from "@/lib/analytics/actions";
 
 /**
  * マウント時および pathname 変更時に trackEvent('views') を1回だけ呼び出すクライアントコンポーネント。

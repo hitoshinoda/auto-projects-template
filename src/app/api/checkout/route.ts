@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { stripe } from "@/lib/stripe/stripe";
 import { adminAuth } from "@/lib/firebase/admin";
 import { headers } from "next/headers";
 

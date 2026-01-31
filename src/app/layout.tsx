@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 import { AuthProvider } from "@/lib/firebase/auth-context";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
@@ -32,6 +33,7 @@ export default function RootLayout({
         <AnalyticsTracker />
         <AuthProvider>
           {children}
+          <Toaster richColors position="top-center" />
         </AuthProvider>
       </body>
     </html>

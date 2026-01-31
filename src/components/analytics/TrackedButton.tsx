@@ -1,6 +1,6 @@
 "use client";
 
-import { trackEvent } from "@/app/actions/analytics";
+import { trackEvent } from "@/lib/analytics/actions";
 
 type TrackedButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   /** クリック時に呼ばれるコールバック（trackEvent の後に実行） */
