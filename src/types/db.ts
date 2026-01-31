@@ -1,4 +1,19 @@
 /**
+ * アナリティクスで記録するイベント種別
+ */
+export type AnalyticsEventType = "views" | "clicks" | "conversions";
+
+/**
+ * Firestore: projects/{projectId}/analytics/{date} のドキュメント型
+ */
+export interface AnalyticsDailyDoc {
+  views: number;
+  clicks: number;
+  conversions: number;
+  lastUpdated: { seconds: number; nanoseconds: number };
+}
+
+/**
  * User document schema in Firestore
  */
 export interface AppUser {

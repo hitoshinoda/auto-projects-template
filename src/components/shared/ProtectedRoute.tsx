@@ -3,7 +3,7 @@
 import { useAuth } from "@/lib/firebase/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { REDIRECT_PATHS } from "@/proxy";
+import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
