@@ -23,10 +23,12 @@ function getDateString(): string {
 
 /**
  * アナリティクスイベントを Firestore に記録する Server Action.
+ * テンプレート状態（credentials 未設定）では Firestore を呼ばず静かにスキップ。
  * エラー時は UI を止めず静かに失敗（console.error のみ）。
  */
 export async function trackEvent(eventType: AnalyticsEventType): Promise<void> {
-  if (PROJECT_ID === FALLBACK_PROJECT_ID) {
+  const hasCredentials = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT);
+  if (!hasCredentials || PROJECT_ID === FALLBACK_PROJECT_ID) {
     console.log("analytics invalid");
     return;
   }
@@ -53,6 +55,15 @@ export async function trackEvent(eventType: AnalyticsEventType): Promise<void> {
       { merge: true }
     );
   } catch (err) {
-    console.error("[analytics] trackEvent failed:", err);
+    // credentials 未設定・読み込み失敗時はテンプレート用に静かに扱う
+    const isCredentialsError =
+      err instanceof Error &&
+      (err.message.includes("default credentials") ||
+        err.message.includes("Could not load"));
+    if (isCredentialsError) {
+      console.log("analytics invalid");
+    } else {
+      console.error("[analytics] trackEvent failed:", err);
+    }
   }
 }

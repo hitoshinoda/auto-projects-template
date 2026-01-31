@@ -6,6 +6,7 @@ import { sendEmailVerification } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Loader2, MailCheck, RefreshCcw } from "lucide-react";
 import { auth } from "@/lib/firebase/client";
+import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 
 export default function VerifyEmailPage() {
     const { user, loading } = useAuth();
@@ -24,7 +25,7 @@ export default function VerifyEmailPage() {
     }
 
     if (user.emailVerified) {
-        router.replace("/");
+        router.replace(REDIRECT_PATHS.DASHBOARD);
         return null;
     }
 
@@ -34,11 +35,11 @@ export default function VerifyEmailPage() {
         try {
             if (auth.currentUser) {
                 await sendEmailVerification(auth.currentUser);
-                setMessage("Verification email sent! Please check your inbox.");
+                setMessage("認証メールを送信しました。受信トレイをご確認ください。");
             }
         } catch (error) {
             console.error(error);
-            setMessage("Failed to send email. Please try again later.");
+            setMessage("送信に失敗しました。しばらくしてから再度お試しください。");
         } finally {
             setResending(false);
         }
@@ -50,9 +51,9 @@ export default function VerifyEmailPage() {
             if (auth.currentUser) {
                 await auth.currentUser.reload();
                 if (auth.currentUser.emailVerified) {
-                    router.replace("/");
+                    router.replace(REDIRECT_PATHS.DASHBOARD);
                 } else {
-                    setMessage("Email not verified yet.");
+                    setMessage("まだ認証が完了していません。");
                 }
             }
         } catch (error) {
@@ -70,14 +71,14 @@ export default function VerifyEmailPage() {
                         <MailCheck className="h-6 w-6 text-blue-600" />
                     </div>
 
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Verify your email</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">メールアドレスの認証</h2>
                     <p className="text-gray-600 mb-6">
-                        We&apos;ve sent a verification email to <strong>{user.email}</strong>.<br />
-                        Please click the link in the email to verify your account.
+                        <strong>{user.email}</strong> に認証メールを送信しました。<br />
+                        メール内のリンクをクリックして認証を完了してください。
                     </p>
 
                     {message && (
-                        <div className={`text-sm p-2 rounded mb-4 ${message.includes("sent") ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}>
+                        <div className={`text-sm p-2 rounded mb-4 ${message.includes("送信しました") ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}>
                             {message}
                         </div>
                     )}
@@ -88,7 +89,7 @@ export default function VerifyEmailPage() {
                             disabled={verifying}
                             className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-all"
                         >
-                            {verifying ? <Loader2 className="animate-spin h-5 w-5" /> : "I've verified my email"}
+                            {verifying ? <Loader2 className="animate-spin h-5 w-5" /> : "認証が完了した"}
                         </button>
 
                         <button
@@ -97,13 +98,13 @@ export default function VerifyEmailPage() {
                             className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all"
                         >
                             {resending ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <RefreshCcw className="h-4 w-4 mr-2" />}
-                            Resend verification email
+                            認証メールを再送する
                         </button>
                     </div>
 
                     <div className="mt-6 text-sm text-gray-500">
                         <button onClick={() => auth.signOut()} className="text-blue-600 hover:underline">
-                            Sign out
+                            ログアウト
                         </button>
                     </div>
                 </div>

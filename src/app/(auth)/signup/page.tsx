@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Mail, Lock } from "lucide-react";
+import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 
 export default function SignupPage() {
     const [email, setEmail] = useState("");
@@ -31,7 +32,7 @@ export default function SignupPage() {
             if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError("An unknown error occurred");
+                setError("エラーが発生しました。");
             }
         } finally {
             setLoading(false);
@@ -44,13 +45,12 @@ export default function SignupPage() {
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
-            // Google users are usually verified by default, redirect to home or dashboard
-            router.push("/");
+            router.push(REDIRECT_PATHS.AFTER_SIGNUP);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError("An unknown error occurred");
+                setError("エラーが発生しました。");
             }
         } finally {
             setLoading(false);
@@ -61,12 +61,11 @@ export default function SignupPage() {
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Create your account
+                    新規登録
                 </h2>
                 <p className="mt-2 text-center text-sm text-gray-600">
-                    Or{" "}
                     <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                        sign in to your existing account
+                        すでにアカウントをお持ちの方はログイン
                     </Link>
                 </p>
             </div>
@@ -76,7 +75,7 @@ export default function SignupPage() {
                     <form className="space-y-6" onSubmit={handleSignup}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email address
+                                メールアドレス
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -98,7 +97,7 @@ export default function SignupPage() {
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                Password
+                                パスワード
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -128,7 +127,7 @@ export default function SignupPage() {
                                 disabled={loading}
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
-                                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign up"}
+                                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "登録する"}
                             </button>
                         </div>
                     </form>
@@ -139,7 +138,7 @@ export default function SignupPage() {
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                                <span className="px-2 bg-white text-gray-500">または</span>
                             </div>
                         </div>
 

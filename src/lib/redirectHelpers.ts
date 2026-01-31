@@ -2,11 +2,11 @@ export const REDIRECT_PATHS = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   HOME: "/",
+  DASHBOARD: "/dashboard",
   VERIFY_EMAIL: "/verify-email",
   FORGOT_PASSWORD: "/forgot-password",
-  AFTER_LOGIN: "/", // Where to go after successful login
-  AFTER_SIGNUP: "/", // Where to go after successful signup? Or maybe verify-email?
-  // Usually after signup, if we require verification, we might want to go to verify-email or just let the ProtectedRoute handle it.
+  AFTER_LOGIN: "/dashboard",
+  AFTER_SIGNUP: "/dashboard",
 };
 
 /**

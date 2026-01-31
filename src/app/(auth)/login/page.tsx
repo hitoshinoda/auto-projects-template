@@ -6,6 +6,7 @@ import { auth } from "@/lib/firebase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Loader2, Mail, Lock } from "lucide-react";
+import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -21,21 +22,17 @@ export default function LoginPage() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            // ProtectedRoute or middleware will handle redirection if email not verified
-            // Or we can check here:
-            // if (!userCredential.user.emailVerified) router.push('/verify-email');
-            // else router.push('/');
-            router.push("/");
+            router.push(REDIRECT_PATHS.AFTER_LOGIN);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 // Simplify error messages for user
                 if (err.message.includes("auth/invalid-credential")) {
-                    setError("Invalid email or password.");
+                    setError("メールアドレスまたはパスワードが正しくありません。");
                 } else {
                     setError(err.message);
                 }
             } else {
-                setError("An unknown error occurred");
+                setError("エラーが発生しました。");
             }
         } finally {
             setLoading(false);
@@ -48,12 +45,12 @@ export default function LoginPage() {
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
-            router.push("/");
+            router.push(REDIRECT_PATHS.AFTER_LOGIN);
         } catch (err: unknown) {
             if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError("An unknown error occurred");
+                setError("エラーが発生しました。");
             }
         } finally {
             setLoading(false);
@@ -64,12 +61,11 @@ export default function LoginPage() {
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Sign in to your account
+                    ログイン
                 </h2>
                 <p className="mt-2 text-center text-sm text-gray-600">
-                    Or{" "}
                     <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                        create a new account
+                        新規登録はこちら
                     </Link>
                 </p>
             </div>
@@ -79,7 +75,7 @@ export default function LoginPage() {
                     <form className="space-y-6" onSubmit={handleLogin}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                Email address
+                                メールアドレス
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -101,7 +97,7 @@ export default function LoginPage() {
 
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                Password
+                                パスワード
                             </label>
                             <div className="mt-1 relative rounded-md shadow-sm">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -124,7 +120,7 @@ export default function LoginPage() {
                         <div className="flex items-center justify-end">
                             <div className="text-sm">
                                 <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                                    Forgot your password?
+                                    パスワードをお忘れの方
                                 </Link>
                             </div>
                         </div>
@@ -139,7 +135,7 @@ export default function LoginPage() {
                                 disabled={loading}
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
-                                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign in"}
+                                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "ログイン"}
                             </button>
                         </div>
                     </form>
@@ -150,7 +146,7 @@ export default function LoginPage() {
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                                <span className="px-2 bg-white text-gray-500">または</span>
                             </div>
                         </div>
 
