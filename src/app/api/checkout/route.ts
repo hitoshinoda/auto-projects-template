@@ -24,23 +24,14 @@ export async function POST(_req: Request) {
 
     // Dynamic success/cancel URLs based on the request origin or apphosting domain
     // For now, we use the origin header or fallback to localhost
+    const priceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO;
     const origin = (await headers()).get("origin") || "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Pro Plan",
-              description: "Unlock all premium features",
-            },
-            unit_amount: 1000, // $10.00
-            recurring: {
-              interval: "month",
-            },
-          },
+          price: priceId,
           quantity: 1,
         },
       ],
