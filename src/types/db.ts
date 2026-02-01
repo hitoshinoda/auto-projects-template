@@ -1,7 +1,13 @@
 /**
  * アナリティクスで記録するイベント種別
  */
-export type AnalyticsEventType = "views" | "clicks" | "conversions";
+export type AnalyticsEventType =
+  | "views"
+  | "clicks"
+  | "signup"
+  | "checkout_start"
+  | "subscription_success"
+  | "active_usage";
 
 /**
  * Firestore: projects/{projectId}/analytics/{date} のドキュメント型
@@ -9,7 +15,10 @@ export type AnalyticsEventType = "views" | "clicks" | "conversions";
 export interface AnalyticsDailyDoc {
   views: number;
   clicks: number;
-  conversions: number;
+  signup: number;
+  checkout_start: number;
+  subscription_success: number;
+  active_usage: number;
   lastUpdated: { seconds: number; nanoseconds: number };
 }
 

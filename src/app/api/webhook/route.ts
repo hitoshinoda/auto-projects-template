@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe/stripe";
 import { adminDb } from "@/lib/firebase/admin";
+import { trackEvent } from "@/lib/analytics/actions";
 import Stripe from "stripe";
 
 export async function POST(req: Request) {
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
             },
             { merge: true },
           );
+          await trackEvent("subscription_success");
           console.log(`User ${userId} upgraded to Pro.`);
         }
         break;
@@ -72,6 +74,7 @@ export async function POST(req: Request) {
               stripeSubscriptionId: subscriptionId,
               updatedAt: new Date().toISOString(),
             });
+            await trackEvent("subscription_success");
           }
         }
         break;
