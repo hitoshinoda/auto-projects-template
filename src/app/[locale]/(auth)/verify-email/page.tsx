@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { sendEmailVerification } from "firebase/auth";
 import { useRouter } from "@/i18n/navigation";
 import { Loader2, MailCheck, RefreshCcw } from "lucide-react";
 import { auth } from "@/lib/firebase/client";
 import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
+import { trackEvent } from "@/lib/analytics/actions";
 
 export default function VerifyEmailPage() {
     const { user, loading } = useAuth();
@@ -14,6 +15,7 @@ export default function VerifyEmailPage() {
     const [verifying, setVerifying] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const router = useRouter();
+    const trackedSignupRef = useRef(false);
 
     if (loading) {
         return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin h-8 w-8 text-blue-600" /></div>;
@@ -24,8 +26,18 @@ export default function VerifyEmailPage() {
         return null;
     }
 
+    useEffect(() => {
+        if (loading || !user?.emailVerified) return;
+        void (async () => {
+            if (!trackedSignupRef.current) {
+                trackedSignupRef.current = true;
+                await trackEvent("signup");
+            }
+            router.replace(REDIRECT_PATHS.DASHBOARD);
+        })();
+    }, [loading, router, user]);
+
     if (user.emailVerified) {
-        router.replace(REDIRECT_PATHS.DASHBOARD);
         return null;
     }
 
@@ -51,6 +63,10 @@ export default function VerifyEmailPage() {
             if (auth.currentUser) {
                 await auth.currentUser.reload();
                 if (auth.currentUser.emailVerified) {
+                    if (!trackedSignupRef.current) {
+                        trackedSignupRef.current = true;
+                        await trackEvent("signup");
+                    }
                     router.replace(REDIRECT_PATHS.DASHBOARD);
                 } else {
                     setMessage("まだ認証が完了していません。");

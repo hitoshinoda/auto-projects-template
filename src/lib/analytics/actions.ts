@@ -40,12 +40,7 @@ export async function trackEvent(eventType: AnalyticsEventType): Promise<void> {
       .collection("analytics")
       .doc(date);
 
-    const field =
-      eventType === "views"
-        ? "views"
-        : eventType === "clicks"
-          ? "clicks"
-          : "conversions";
+    const field: AnalyticsEventType = eventType;
 
     await docRef.set(
       {
