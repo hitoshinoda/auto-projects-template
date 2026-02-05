@@ -4,9 +4,11 @@ import { useAuth } from "@/lib/firebase/auth-context";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { LogOut, LayoutDashboard } from "lucide-react";
 
 export default function DashboardPage() {
+  const t = useTranslations("user.dashboard");
   const { user } = useAuth();
 
   const handleSignOut = async () => {
@@ -19,7 +21,7 @@ export default function DashboardPage() {
         <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2 text-gray-900">
             <LayoutDashboard className="h-6 w-6" aria-hidden />
-            <span className="font-semibold">ダッシュボード</span>
+            <span className="font-semibold">{t("title")}</span>
           </div>
           <button
             type="button"
@@ -27,7 +29,7 @@ export default function DashboardPage() {
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
           >
             <LogOut className="h-4 w-4" aria-hidden />
-            ログアウト
+            {t("logout")}
           </button>
         </div>
       </header>
@@ -35,10 +37,10 @@ export default function DashboardPage() {
       <main className="mx-auto max-w-4xl px-4 py-10 sm:px-6">
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <h1 className="text-xl font-semibold text-gray-900">
-            おかえりなさい
+            {t("welcome")}
           </h1>
           <p className="mt-1 text-gray-600">
-            ログイン中:{" "}
+            {t("loggedInAs")}{" "}
             <span className="font-medium text-gray-900">
               {user?.email ?? "—"}
             </span>
@@ -48,19 +50,19 @@ export default function DashboardPage() {
               href="/settings"
               className="text-sm font-medium text-blue-600 hover:text-blue-500"
             >
-              設定（プロフィール）
+              {t("settingsLink")}
             </Link>
             <Link
               href="/billing"
               className="text-sm font-medium text-blue-600 hover:text-blue-500"
             >
-              課金管理
+              {t("billingLink")}
             </Link>
             <Link
               href="/"
               className="text-sm font-medium text-gray-600 hover:text-gray-900"
             >
-              ← トップへ戻る
+              {t("backToTop")}
             </Link>
           </div>
         </div>

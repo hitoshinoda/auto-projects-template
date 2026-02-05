@@ -1,12 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
 import { ArrowLeft, Mail, Send } from "lucide-react";
+import { useAuth } from "@/lib/firebase/auth-context";
+import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 
 export default function ContactPage() {
+  const t = useTranslations("contact");
+  const { user } = useAuth();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [category, setCategory] = useState<
+    "general" | "feature_request" | "bug_report"
+  >("general");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
@@ -20,24 +29,36 @@ export default function ContactPage() {
     setErrorMessage("");
 
     try {
+      if ((category === "feature_request" || category === "bug_report") && !user) {
+        setStatus("error");
+        setErrorMessage(t("errorLoginRequired"));
+        router.push(REDIRECT_PATHS.LOGIN);
+        return;
+      }
+
+      const token = user ? await user.getIdToken() : null;
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, subject, body }),
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ name, email, subject, body, category }),
       });
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error ?? "送信に失敗しました");
+        throw new Error(data.error ?? t("errorSendFailed"));
       }
       setStatus("success");
       setName("");
       setEmail("");
+      setCategory("general");
       setSubject("");
       setBody("");
     } catch (err) {
       setStatus("error");
-      setErrorMessage(err instanceof Error ? err.message : "送信に失敗しました");
+      setErrorMessage(err instanceof Error ? err.message : t("errorSendFailed"));
     }
   };
 
@@ -51,13 +72,13 @@ export default function ContactPage() {
           className="mb-8 inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
-          トップへ戻る
+          {t("backToTop")}
         </Link>
 
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
-          <h1 className="text-2xl font-bold text-gray-900">お問い合わせ</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="mt-2 text-gray-600">
-            以下のフォームよりお問い合わせください。サポートメールアドレス:{" "}
+            {t("intro")}{" "}
             <a
               href={`mailto:${supportEmail}`}
               className="inline-flex items-center gap-1 font-medium text-blue-600 hover:text-blue-500"
@@ -70,7 +91,7 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                お名前
+                {t("nameLabel")}
               </label>
               <input
                 id="name"
@@ -84,7 +105,7 @@ export default function ContactPage() {
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                メールアドレス
+                {t("emailLabel")}
               </label>
               <input
                 id="email"
@@ -97,8 +118,32 @@ export default function ContactPage() {
               />
             </div>
             <div>
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {t("categoryLabel")}
+              </label>
+              <select
+                id="category"
+                name="category"
+                required
+                value={category}
+                onChange={(e) =>
+                  setCategory(
+                    e.target.value as "general" | "feature_request" | "bug_report"
+                  )
+                }
+                className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="general">{t("categoryGeneral")}</option>
+                <option value="feature_request">{t("categoryFeatureRequest")}</option>
+                <option value="bug_report">{t("categoryBugReport")}</option>
+              </select>
+            </div>
+            <div>
               <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                件名
+                {t("subjectLabel")}
               </label>
               <input
                 id="subject"
@@ -112,7 +157,7 @@ export default function ContactPage() {
             </div>
             <div>
               <label htmlFor="body" className="block text-sm font-medium text-gray-700">
-                お問い合わせ内容
+                {t("bodyLabel")}
               </label>
               <textarea
                 id="body"
@@ -127,7 +172,7 @@ export default function ContactPage() {
 
             {status === "success" && (
               <div className="rounded-md bg-green-50 p-4 text-sm text-green-800">
-                送信しました。内容を確認のうえ、ご連絡いたします。
+                {t("successMessage")}
               </div>
             )}
             {status === "error" && (
@@ -142,11 +187,11 @@ export default function ContactPage() {
               className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
             >
               {status === "sending" ? (
-                "送信中..."
+                t("sending")
               ) : (
                 <>
                   <Send className="h-4 w-4" aria-hidden />
-                  送信する
+                  {t("submitButton")}
                 </>
               )}
             </button>

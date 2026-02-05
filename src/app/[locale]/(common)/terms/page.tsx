@@ -1,13 +1,28 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "利用規約",
-  description: "当サービスの利用規約です。",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("terms");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const t = await getTranslations("terms");
+
+  const section3Items = [
+    t("section3Item1"),
+    t("section3Item2"),
+    t("section3Item3"),
+    t("section3Item4"),
+    t("section3Item5"),
+    t("section3Item6"),
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
@@ -16,92 +31,75 @@ export default function TermsPage() {
           className="mb-8 inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-gray-900"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
-          トップへ戻る
+          {t("backToTop")}
         </Link>
 
         <article className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-            利用規約
+            {t("title")}
           </h1>
           <p className="mt-2 text-sm text-gray-500">
-            最終更新日: {new Date().toLocaleDateString("ja-JP")}
+            {t("lastUpdated")} {new Date().toLocaleDateString("ja-JP")}
           </p>
 
           <div className="mt-8 space-y-8 text-gray-700">
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第1条（適用）
+                {t("section1Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                本規約は、本サービス（以下「当サービス」）の利用条件を定めるものです。ユーザーの皆様には、本規約に同意のうえ、当サービスをご利用いただきます。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section1Body")}</p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第2条（利用登録）
+                {t("section2Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                当サービスでは、登録希望者が本規約に同意のうえ、所定の方法により利用登録を申請し、当サービスがこれを承認することによって、利用登録が完了するものとします。当サービスは、利用登録の申請者に以下の事由があると判断した場合、利用登録の申請を承認しないことがあります。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section2Body")}</p>
               <ul className="mt-3 list-inside list-disc space-y-1 pl-2">
-                <li>虚偽の事項を届け出た場合</li>
-                <li>本規約に違反したことがある者からの申請である場合</li>
-                <li>その他、当サービスが利用登録を相当でないと認めた場合</li>
+                <li>{t("section2Item1")}</li>
+                <li>{t("section2Item2")}</li>
+                <li>{t("section2Item3")}</li>
               </ul>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第3条（禁止事項）
+                {t("section3Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                ユーザーは、当サービスの利用にあたり、以下の行為をしてはなりません。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section3Body")}</p>
               <ul className="mt-3 list-inside list-disc space-y-1 pl-2">
-                <li>法令または公序良俗に違反する行為</li>
-                <li>犯罪行為に関連する行為</li>
-                <li>当サービスの運営を妨害するおそれのある行為</li>
-                <li>他のユーザーまたは第三者の権利を侵害する行為</li>
-                <li>不正アクセスを試みる行為、またはその準備行為</li>
-                <li>その他、当サービスが不適切と判断する行為</li>
+                {section3Items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第4条（サービスの提供の停止等）
+                {t("section4Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                当サービスは、以下の場合には、ユーザーに事前に通知することなく、当サービスの全部または一部の提供を停止または中断することができるものとします。システムの保守・点検を行う場合、地震・停電・天災等の不可抗力により提供が困難な場合、その他当サービスが停止または中断が必要と判断した場合がこれに該当します。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section4Body")}</p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第5条（免責事項）
+                {t("section5Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                当サービスは、当サービスに事実上または法律上の瑕疵（安全性、信頼性、正確性、完全性、有効性、特定の目的への適合性を含みますがこれらに限りません）がないことを保証するものではありません。当サービスに起因してユーザーに生じた損害について、当サービスは一切の責任を負いません。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section5Body")}</p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第6条（規約の変更）
+                {t("section6Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                当サービスは、必要と認めた場合には、ユーザーに通知することなく本規約を変更することができるものとします。変更後の本規約は、当サービスに掲載したときから効力を生じるものとします。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section6Body")}</p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-gray-900">
-                第7条（お問い合わせ）
+                {t("section7Title")}
               </h2>
-              <p className="mt-2 leading-relaxed">
-                本規約に関するお問い合わせは、当サービス内のお問い合わせ窓口までご連絡ください。
-              </p>
+              <p className="mt-2 leading-relaxed">{t("section7Body")}</p>
             </section>
           </div>
         </article>

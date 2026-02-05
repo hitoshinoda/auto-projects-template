@@ -1,0 +1,18 @@
+{
+  "title": "お問い合わせ",
+  "intro": "以下のフォームよりお問い合わせください。サポートメールアドレス:",
+  "backToTop": "トップへ戻る",
+  "nameLabel": "お名前",
+  "emailLabel": "メールアドレス",
+  "categoryLabel": "お問い合わせ種別",
+  "categoryGeneral": "一般的なお問い合わせ",
+  "categoryFeatureRequest": "機能追加の要望",
+  "categoryBugReport": "不具合の報告",
+  "subjectLabel": "件名",
+  "bodyLabel": "お問い合わせ内容",
+  "submitButton": "送信する",
+  "sending": "送信中...",
+  "successMessage": "送信しました。内容を確認のうえ、ご連絡いたします。",
+  "errorLoginRequired": "ログインが必要です。ログイン画面へ移動します。",
+  "errorSendFailed": "送信に失敗しました"
+}

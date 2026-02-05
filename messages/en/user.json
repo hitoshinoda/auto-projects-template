@@ -1,0 +1,35 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "loggedInAs": "Logged in as:",
+    "logout": "Log out",
+    "settingsLink": "Settings (Profile)",
+    "billingLink": "Billing",
+    "backToTop": "← Back to top"
+  },
+  "settings": {
+    "title": "Settings",
+    "backToDashboard": "Back to dashboard",
+    "profile": "Profile",
+    "displayName": "Display name",
+    "email": "Email address",
+    "notSet": "(Not set)",
+    "profileNote": "Update your profile in your auth provider (e.g. Google) settings.",
+    "security": "Account & Security",
+    "securityNote": "Change password or two-factor auth in your auth provider settings."
+  },
+  "billing": {
+    "title": "Billing",
+    "backToDashboard": "Back to dashboard",
+    "currentPlan": "Current plan",
+    "planNamePlaceholder": "Plan: (display plan name here)",
+    "nextRenewalPlaceholder": "Next renewal: (display date here)",
+    "changePlan": "Change plan →",
+    "paymentMethod": "Payment method",
+    "paymentMethodPlaceholder": "Registered payment method: (display card info here)",
+    "paymentMethodNote": "Add or update payment method via Stripe Customer Portal or similar.",
+    "invoiceHistory": "Invoice history",
+    "invoiceHistoryNote": "Show invoice history by integrating with Stripe."
+  }
+}

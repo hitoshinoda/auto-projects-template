@@ -1,0 +1,19 @@
+{
+  "title": "はじめに",
+  "getStarted": "始めるには page.tsx を編集してください。",
+  "deploy": "デプロイ",
+  "docs": "ドキュメント",
+  "heroLabel": "ヒーロー",
+  "benefitsLabel": "ベネフィット",
+  "benefitsTitle": "主要なベネフィット",
+  "benefitsDetail": "このプロダクトが生み出す具体的な効果を記述します。",
+  "painPointsLabel": "課題",
+  "painPointsTitle": "解決できる課題",
+  "painPointsDetail": "ドメインの専門用語で課題を明示します。",
+  "solutionsLabel": "解決策",
+  "solutionsTitle": "課題に対する解決策",
+  "solutionsDetail": "課題に対してどのように解決するかを要約します。",
+  "ctaLabel": "行動喚起",
+  "ctaTitle": "数分で立ち上げる",
+  "ctaDescription": "テンプレートを起点にドメインへ最適化しましょう。"
+}

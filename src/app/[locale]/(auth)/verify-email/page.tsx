@@ -4,12 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/firebase/auth-context";
 import { sendEmailVerification } from "firebase/auth";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { Loader2, MailCheck, RefreshCcw } from "lucide-react";
 import { auth } from "@/lib/firebase/client";
 import { REDIRECT_PATHS } from "@/lib/redirectHelpers";
 import { trackEvent } from "@/lib/analytics/actions";
 
 export default function VerifyEmailPage() {
+    const t = useTranslations("auth.verifyEmail");
     const { user, loading } = useAuth();
     const [resending, setResending] = useState(false);
     const [verifying, setVerifying] = useState(false);
@@ -47,11 +49,11 @@ export default function VerifyEmailPage() {
         try {
             if (auth.currentUser) {
                 await sendEmailVerification(auth.currentUser);
-                setMessage("認証メールを送信しました。受信トレイをご確認ください。");
+                setMessage(t("messageSuccess"));
             }
         } catch (error) {
             console.error(error);
-            setMessage("送信に失敗しました。しばらくしてから再度お試しください。");
+            setMessage(t("messageSendFailed"));
         } finally {
             setResending(false);
         }
@@ -69,7 +71,7 @@ export default function VerifyEmailPage() {
                     }
                     router.replace(REDIRECT_PATHS.DASHBOARD);
                 } else {
-                    setMessage("まだ認証が完了していません。");
+                    setMessage(t("messageNotVerified"));
                 }
             }
         } catch (error) {
@@ -87,14 +89,14 @@ export default function VerifyEmailPage() {
                         <MailCheck className="h-6 w-6 text-blue-600" />
                     </div>
 
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">メールアドレスの認証</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">{t("title")}</h2>
                     <p className="text-gray-600 mb-6">
-                        <strong>{user.email}</strong> に認証メールを送信しました。<br />
-                        メール内のリンクをクリックして認証を完了してください。
+                        <strong>{user.email}</strong> {t("sentTo")}<br />
+                        {t("instruction")}
                     </p>
 
                     {message && (
-                        <div className={`text-sm p-2 rounded mb-4 ${message.includes("送信しました") ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}>
+                        <div className={`text-sm p-2 rounded mb-4 ${message === t("messageSuccess") ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}>
                             {message}
                         </div>
                     )}
@@ -105,7 +107,7 @@ export default function VerifyEmailPage() {
                             disabled={verifying}
                             className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none transition-all"
                         >
-                            {verifying ? <Loader2 className="animate-spin h-5 w-5" /> : "認証が完了した"}
+                            {verifying ? <Loader2 className="animate-spin h-5 w-5" /> : t("buttonVerified")}
                         </button>
 
                         <button
@@ -114,7 +116,7 @@ export default function VerifyEmailPage() {
                             className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all"
                         >
                             {resending ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <RefreshCcw className="h-4 w-4 mr-2" />}
-                            認証メールを再送する
+                            {t("buttonResend")}
                         </button>
                     </div>
 

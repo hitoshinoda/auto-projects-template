@@ -1,0 +1,21 @@
+{
+  "title": "特商法表記",
+  "description": "特定商取引法に基づく表記です。",
+  "backToTop": "トップへ戻る",
+  "pageTitle": "特定商取引法に基づく表記",
+  "lastUpdated": "最終更新日:",
+  "sellerName": "事業者名",
+  "representative": "代表者名",
+  "address": "所在地",
+  "phone": "電話番号",
+  "email": "メールアドレス",
+  "url": "販売URL",
+  "price": "販売価格",
+  "paymentMethod": "支払方法",
+  "paymentDeadline": "支払時期",
+  "deliveryTime": "引き渡し時期",
+  "refundCancel": "返品・キャンセル",
+  "contact": "相談窓口",
+  "placeholder": "（記載してください）",
+  "priceNote": "（各商品・サービスに表示）"
+}

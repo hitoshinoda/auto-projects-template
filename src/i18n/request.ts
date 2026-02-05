@@ -8,8 +8,30 @@ export default getRequestConfig(async ({ requestLocale }) => {
     ? requested
     : routing.defaultLocale;
 
+  const namespaces = [
+    "common",
+    "home",
+    "Metadata",
+    "contact",
+    "auth",
+    "pricing",
+    "terms",
+    "privacy",
+    "tokushoho",
+    "user",
+  ] as const;
+
+  const entries = await Promise.all(
+    namespaces.map(async (namespace) => [
+      namespace,
+      (await import(`../../messages/${locale}/${namespace}.json`)).default,
+    ])
+  );
+
+  const messages = Object.fromEntries(entries);
+
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages,
   };
 });

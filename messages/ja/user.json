@@ -1,0 +1,35 @@
+{
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcome": "おかえりなさい",
+    "loggedInAs": "ログイン中:",
+    "logout": "ログアウト",
+    "settingsLink": "設定（プロフィール）",
+    "billingLink": "課金管理",
+    "backToTop": "← トップへ戻る"
+  },
+  "settings": {
+    "title": "設定",
+    "backToDashboard": "ダッシュボードへ",
+    "profile": "プロフィール",
+    "displayName": "表示名",
+    "email": "メールアドレス",
+    "notSet": "（未設定）",
+    "profileNote": "プロフィールの変更は、認証プロバイダ（Google 等）の設定から行ってください。",
+    "security": "アカウント・セキュリティ",
+    "securityNote": "パスワードの変更や二段階認証は、認証プロバイダの設定から行ってください。"
+  },
+  "billing": {
+    "title": "課金管理",
+    "backToDashboard": "ダッシュボードへ",
+    "currentPlan": "現在のプラン",
+    "planNamePlaceholder": "プラン名: （ここにプラン名を表示）",
+    "nextRenewalPlaceholder": "次回更新日: （ここに日付を表示）",
+    "changePlan": "プランを変更する →",
+    "paymentMethod": "支払い方法",
+    "paymentMethodPlaceholder": "登録中の支払い方法: （ここにカード情報等を表示）",
+    "paymentMethodNote": "支払い方法の追加・変更は Stripe カスタマーポータル等と連携して実装してください。",
+    "invoiceHistory": "請求履歴",
+    "invoiceHistoryNote": "請求履歴の一覧は Stripe と連携して表示してください。"
+  }
+}

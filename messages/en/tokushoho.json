@@ -1,0 +1,21 @@
+{
+  "title": "Legal Notice",
+  "description": "Required disclosures under applicable law.",
+  "backToTop": "Back to top",
+  "pageTitle": "Legal disclosures",
+  "lastUpdated": "Last updated:",
+  "sellerName": "Business name",
+  "representative": "Representative",
+  "address": "Address",
+  "phone": "Phone",
+  "email": "Email",
+  "url": "Sales URL",
+  "price": "Prices",
+  "paymentMethod": "Payment methods",
+  "paymentDeadline": "Payment due",
+  "deliveryTime": "Delivery",
+  "refundCancel": "Refunds and cancellation",
+  "contact": "Contact",
+  "placeholder": "(To be provided)",
+  "priceNote": "(As displayed per product/service)"
+}
