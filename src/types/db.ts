@@ -10,6 +10,26 @@ export type AnalyticsEventType =
   | "active_usage";
 
 /**
+ * アナリティクスイベントの追加メタデータ
+ */
+export type AnalyticsEventMetadata = {
+  source?: string;
+  medium?: string;
+  ref?: string;
+  [key: string]: string | undefined;
+};
+
+/**
+ * セッションに保存する流入元情報
+ */
+export type TrafficSource = {
+  source?: string;
+  medium?: string;
+  ref?: string;
+  referrer?: string;
+};
+
+/**
  * Firestore: projects/{projectId}/analytics/{date} のドキュメント型
  */
 export interface AnalyticsDailyDoc {

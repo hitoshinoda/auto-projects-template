@@ -4,6 +4,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { AuthProvider } from "@/lib/firebase/auth-context";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
+import { AnalyticsSourceProvider } from "@/components/analytics/AnalyticsSourceProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AnalyticsSourceProvider />
         <AnalyticsTracker />
         <AuthProvider>
           {children}
