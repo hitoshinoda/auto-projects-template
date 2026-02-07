@@ -3,8 +3,9 @@
  */
 declare namespace NodeJS {
   interface ProcessEnv {
-    /** アナリティクス用プロジェクトID（Firestore パス用）。未設定時は default-project */
-    NEXT_PUBLIC_PROJECT_ID?: string;
+    NEXT_PUBLIC_PROJECT_NAME?: string;
+    NEXT_PUBLIC_FIREBASE_DATABASE_ID?: string;
+
     /** Firebase サービスアカウント JSON 文字列 */
     FIREBASE_SERVICE_ACCOUNT?: string;
     NEXT_PUBLIC_FIREBASE_API_KEY?: string;

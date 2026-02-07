@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// ===================================================================
+// プロジェクト名付き Firestore ルール
+// プロジェクト固有データ（users, requests 等）を管理する。
+// DB 名がプロジェクト名になるため、パスに projectName は不要。
+// ===================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ------------------------------------------------------------------
+    // users/{userId}
+    // ログインユーザーは自分のドキュメントのみ読み書き可。
+    // 削除は不可（Admin SDK 経由のみ許可）。
+    // ------------------------------------------------------------------
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // ------------------------------------------------------------------
+    // requests/{requestId}
+    // feature_request / bug_report の保存先。Admin SDK 経由で書き込み。
+    // ログインユーザーは自分の request のみ読み取り可。
+    // ------------------------------------------------------------------
+    match /requests/{requestId} {
+      allow read: if request.auth != null
+                  && resource.data.userId == request.auth.uid;
+      allow write: if false;
+    }
+
+    // ------------------------------------------------------------------
+    // その他: デフォルトで全拒否
+    // ------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "firestore": {
+    "database": "{{PROJECT_NAME}}",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

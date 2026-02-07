@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import { z } from "zod";
 import { headers } from "next/headers";
 import { FieldValue } from "firebase-admin/firestore";
-import { adminAuth, adminDb } from "@/lib/firebase/admin";
+import { adminAuth, adminProjectDb } from "@/lib/firebase/admin";
 
 const contactSchema = z.object({
   name: z.string().min(1, "お名前を入力してください"),
@@ -97,14 +97,7 @@ export async function POST(req: Request) {
     });
 
     if (category === "feature_request") {
-      const projectId =
-        process.env.NEXT_PUBLIC_PROJECT_ID ??
-        process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ??
-        "default-project";
-
-      await adminDb
-        .collection("projects")
-        .doc(projectId)
+      await adminProjectDb
         .collection("requests")
         .add({
           userId: userId ?? null,

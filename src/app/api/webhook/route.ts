@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe/stripe";
-import { adminDb } from "@/lib/firebase/admin";
+import { adminProjectDb } from "@/lib/firebase/admin";
 import { trackEvent } from "@/lib/analytics/actions";
 import Stripe from "stripe";
 
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
         if (userId) {
           // Update Firestore
-          await adminDb.collection("users").doc(userId).set(
+          await adminProjectDb.collection("users").doc(userId).set(
             {
               isPro: true,
               subscriptionStatus: "active",
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         // If needed, we can update status based on invoice, but checkout.session.completed is usually enough for initial upgrade.
         // This is good for renewal updates.
         // We need to find the user with this customerId.
-        const usersSnapshot = await adminDb
+        const usersSnapshot = await adminProjectDb
           .collection("users")
           .where("stripeCustomerId", "==", customerId)
           .limit(1)
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = subscription.customer as string;
 
-        const usersSnapshot = await adminDb
+        const usersSnapshot = await adminProjectDb
           .collection("users")
           .where("stripeCustomerId", "==", customerId)
           .limit(1)

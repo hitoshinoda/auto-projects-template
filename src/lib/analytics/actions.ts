@@ -4,11 +4,9 @@ import { FieldValue } from "firebase-admin/firestore";
 import { adminDb } from "@/lib/firebase/admin";
 import type { AnalyticsEventMetadata, AnalyticsEventType } from "@/types/db";
 
-const FALLBACK_PROJECT_ID = "default-project";
-const PROJECT_ID =
-  process.env.NEXT_PUBLIC_PROJECT_ID ??
-  process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ??
-  FALLBACK_PROJECT_ID;
+const FALLBACK_PROJECT_NAME = "default-project";
+const PROJECT_NAME =
+  process.env.NEXT_PUBLIC_PROJECT_NAME ?? FALLBACK_PROJECT_NAME;
 
 /**
  * 日付を YYYY-MM-DD 形式で返す（ローカルタイムゾーン）
@@ -42,15 +40,16 @@ export async function trackEvent(
   metadata?: AnalyticsEventMetadata
 ): Promise<void> {
   const hasCredentials = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT);
-  if (!hasCredentials || PROJECT_ID === FALLBACK_PROJECT_ID) {
+  if (!hasCredentials || PROJECT_NAME === FALLBACK_PROJECT_NAME) {
     console.log("analytics invalid");
     return;
   }
   try {
     const date = getDateString();
+    // デフォルト Firestore に projects/{projectName}/analytics/{date} で記録
     const docRef = adminDb
       .collection("projects")
-      .doc(PROJECT_ID)
+      .doc(PROJECT_NAME)
       .collection("analytics")
       .doc(date);
 

@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import { getApps } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
 /**
  * FIREBASE_SERVICE_ACCOUNT environment variable should be a JSON string of the service account key.
@@ -27,7 +28,22 @@ if (getApps().length === 0) {
   });
 }
 
-export const adminDb = admin.firestore();
+/**
+ * デフォルト Firestore — analytics データの書き込み先。
+ * パス: projects/{projectName}/analytics/{date}
+ */
+export const adminDb = getFirestore();
+
+/**
+ * プロジェクト名の Firestore（名前付きデータベース）。
+ * users, requests 等のプロジェクト固有データはここに保存。
+ * NEXT_PUBLIC_FIREBASE_DATABASE_ID が未設定の場合はデフォルト DB にフォールバック。
+ */
+const databaseId = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID;
+export const adminProjectDb = databaseId
+  ? getFirestore(databaseId)
+  : getFirestore();
+
 export const adminAuth = admin.auth();
 export const adminStorage = admin.storage();
 export { admin };
